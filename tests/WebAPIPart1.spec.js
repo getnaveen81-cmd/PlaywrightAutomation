@@ -9,7 +9,7 @@
 // Import Playwright test utilities
 const { test, expect, request } = require('@playwright/test')
 // Import our custom API utility class
-const {APiUtils}  = require('./utils/APiUtils')
+const {APiUtils}  = require('../utils/APiUtils')
 
 // TEST DATA - Payloads for API requests
 const loginPayLoad = {userEmail: "getnaveen81@gmail.com", userPassword: "Rahulshetty@1234"}  // Login credentials
