@@ -1,71 +1,39 @@
 const { test, expect } = require('@playwright/test');
 const { request } = require('node:http');
-const { LoginPage }  = require('../pageobjects/LoginPage')
+const { POManager } = require('../pageobjects/POManager');
  
  
  
 test('@Webst Client App login', async ({ page }) => {
    //js file- Login js, DashboardPage
+   const poManager = new POManager(page)
    const username = "anshika@gmail.com";
    const password ="Iamking@000"
    const productName = 'ZARA COAT 3';
    await page.route("**/*.{jpg,png,jpeg}", route=>route.abort())
    const products = page.locator(".card-body");
-   const loginPage = new LoginPage(page);
+
+   const loginPage = poManager.getLoginPage()
    await loginPage.goto()
    await loginPage.validLogin(username,password)
-   await page.waitForLoadState('networkidle');
-   await page.locator(".card-body b").first().waitFor();
-   const titles = await page.locator(".card-body b").allTextContents();
-   console.log(titles); 
-   const count = await products.count();
-   for (let i = 0; i < count; ++i) {
-      if (await products.nth(i).locator("b").textContent() === productName) {
-         //add to cart
-         await products.nth(i).locator("text= Add To Cart").click();
-         break;
-      }
-   }
- 
-   await page.locator("[routerlink*='cart']").click();
-   //await page.pause();
- 
-   await page.locator("div li").first().waitFor();
-   const bool = await page.locator("h3:has-text('ZARA COAT 3')").isVisible();
-   expect(bool).toBeTruthy();
-   await page.locator("text=Checkout").click();
- 
-  await page.getByPlaceholder('Select Country').pressSequentially("ind", { delay: 150 }) 
-   const dropdown = page.locator(".ta-results");
-   await dropdown.waitFor();
-   const optionsCount = await dropdown.locator("button").count();
-   for (let i = 0; i < optionsCount; ++i) {
-      const text = await dropdown.locator("button").nth(i).textContent();
-      if (text === " India") {
-         await dropdown.locator("button").nth(i).click();
-         break;
-      }
-   }
- 
-   expect(page.locator(".user__name [type='text']").first()).toHaveText(username);
-   await page.locator(".action__submit").click();
-   await expect(page.locator(".hero-primary")).toHaveText(" Thankyou for the order. ");
-   const orderId = await page.locator(".em-spacer-1 .ng-star-inserted").textContent();
-   console.log(orderId);
- 
-   await page.locator("button[routerlink*='myorders']").click();
-   await page.locator("tbody").waitFor();
-   const rows = await page.locator("tbody tr");
- 
- 
-   for (let i = 0; i < await rows.count(); ++i) {
-      const rowOrderId = await rows.nth(i).locator("th").textContent();
-      if (orderId.includes(rowOrderId)) {
-         await rows.nth(i).locator("button").first().click();
-         break;
-      }
-   }
-   const orderIdDetails = await page.locator(".col-text").textContent();
-   expect(orderId.includes(orderIdDetails)).toBeTruthy();
+   
+   const dashboardPage = poManager.getDashboardPage()
+   await dashboardPage.searchProductAddCart('ZARA COAT 3')
+   await dashboardPage.navigateToCart()
+
+   const cartPage = poManager.getCartpage()
+   await cartPage.verifyProductIsDisplayed(productName)
+   await cartPage.Checkout()
+
+   const ordersReviewPage = poManager.getOrdersReviewPage()
+   await ordersReviewPage.searchCountryAndSelect("ind","India")
+   const orderId = await ordersReviewPage.SubmitAndGetOrderId()
+   console.log(orderId)
+   await dashboardPage.navigateToOrders()
+
+   const ordersHistoryPage = poManager.getOrdersHistoryPage()
+   ordersHistoryPage.searchOrderAndSelect(orderId)
+   expect(orderId.includes(await ordersHistoryPage.getOrderId())).toBeTruthy()
+
  
 });
