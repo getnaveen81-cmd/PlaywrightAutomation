@@ -1,28 +1,26 @@
 const { test, expect } = require('@playwright/test');
 const { request } = require('node:http');
 const { POManager } = require('../pageobjects/POManager');
+const dataset = JSON.parse(JSON.stringify(require('../utils/ClientAppPOTestData.json')))
  
  
  
 test('@Webst Client App login', async ({ page }) => {
-   //js file- Login js, DashboardPage
    const poManager = new POManager(page)
-   const username = "anshika@gmail.com";
-   const password ="Iamking@000"
-   const productName = 'ZARA COAT 3';
-   await page.route("**/*.{jpg,png,jpeg}", route=>route.abort())
+
+   // await page.route("**/*.{jpg,png,jpeg}", route=>route.abort())
    const products = page.locator(".card-body");
 
    const loginPage = poManager.getLoginPage()
    await loginPage.goto()
-   await loginPage.validLogin(username,password)
-   
+   await loginPage.validLogin(dataset.username,dataset.password)
+
    const dashboardPage = poManager.getDashboardPage()
-   await dashboardPage.searchProductAddCart('ZARA COAT 3')
+   await dashboardPage.searchProductAddCart(dataset.productName)
    await dashboardPage.navigateToCart()
 
    const cartPage = poManager.getCartpage()
-   await cartPage.verifyProductIsDisplayed(productName)
+   await cartPage.verifyProductIsDisplayed(dataset.productName)
    await cartPage.Checkout()
 
    const ordersReviewPage = poManager.getOrdersReviewPage()
