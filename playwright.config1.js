@@ -22,9 +22,9 @@ const config = {
       use: {
         browserName: "webkit",
         headless: true,
-        trace: "on",
-        screenshot: "only-on-failure",
-        video: "retain-on-failure",
+        trace: "on",  // Records a trace for every test execution
+        screenshot: "only-on-failure", // Capture screenshot only when a test fails
+        video: "retain-on-failure",  // Record every test, but keep videos only for failed tests
         ...devices['iPhone 16 Pro Max'] // Emulates the iPhone 16 Pro Max device
       },
     },
@@ -34,6 +34,7 @@ const config = {
         browserName: "chromium",
         headless: false,
         trace: "on",
+        video: "retain-on-failure",
         screenshot: "only-on-failure",
         video: "retain-on-failure",
         ignoreHttpsErros:true, // Ignores SSL/HTTPS certificate errors
