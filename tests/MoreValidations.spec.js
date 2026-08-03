@@ -33,7 +33,7 @@ test('handling popups', async ({ page }) => {
     const framePage = page.frameLocator('[name="iframe-name"]')
 
     //  await framePage.locator("a[href*='lifetime-access']:visible").click()
-    await framePage.locator("a[href*='lifetime-access']").filter({ visible: true}).click()
+    await framePage.locator("a[href*='lifetime-access']").first().click()
      const text = await framePage.locator('.text h2').textContent()
      console.log("number of happy subscribers: "+ text.split(" ")[1])
 })
@@ -49,7 +49,7 @@ test("Screeshot & Visual comaparision", async ({page})=>{
 
 })
 
-test.only('visual', async({page})=>{
+test('visual', async({page})=>{
     await page.goto('https://www.flightaware.com/')
     expect(await page.screenshot()).toMatchSnapshot('landingpage.png')
 })
