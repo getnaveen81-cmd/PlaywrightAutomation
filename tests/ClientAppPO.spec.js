@@ -7,7 +7,7 @@ const dataset = JSON.parse(
 );
 
 for (const data of dataset) {
-  test(`@Webst Client App login for ${data.productName}`, async ({ page }) => {
+  test(`@Web Client App login for ${data.productName}`, async ({ page }) => {
     const poManager = new POManager(page);
 
     // await page.route("**/*.{jpg,png,jpeg}", route=>route.abort())

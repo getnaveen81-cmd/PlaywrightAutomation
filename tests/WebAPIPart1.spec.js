@@ -40,7 +40,7 @@ response =  await apiUtils.createOrder(orderPayload)
 // ============================================================================
 // TEST: Verify order created via API appears in the UI
 // ============================================================================
-test('Place the order',async({page})=>{
+test('@API Place the order',async({page})=>{
 
 // INJECT TOKEN INTO BROWSER - Bypass UI login
 // addInitScript() runs JS code BEFORE the page loads any scripts

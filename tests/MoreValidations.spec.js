@@ -14,7 +14,7 @@ workflows where each test relies on the successful completion of the previous on
 
 test.describe.configure({mode:"parallel"})
 // Test: handling popups and basic navigation/visibility interactions
-test('handling popups', async ({ page }) => {
+test('@Web handling popups', async ({ page }) => {
     // Navigate to a practice page that contains UI controls we'll use
     await page.goto('https://rahulshettyacademy.com/AutomationPractice/')
 

@@ -21,7 +21,7 @@ const config = {
   },
   use: {
     browserName : 'chromium',
-    headless : false,
+    headless : true,
     
     // Trace options: 'on' | 'off' | 'on-first-retry' | 'retain-on-failure'
     trace: 'on',

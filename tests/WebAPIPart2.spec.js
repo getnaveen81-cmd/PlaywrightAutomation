@@ -23,8 +23,8 @@ test.beforeAll( async({browser})=>{
     
     // PERFORM UI LOGIN - This runs only once for all tests
     await page.goto("https://rahulshettyacademy.com/client");
-   await page.locator("#userEmail").fill('anshika@gmail.com');
-   await page.locator("#userPassword").fill("Iamking@000");
+   await page.locator("#userEmail").fill('getnaveen81@gmail.com');
+   await page.locator("#userPassword").fill("Rahulshetty@1234");
    await page.locator("[value='Login']").click();
    
    // Wait for page to fully load (no network activity)
@@ -47,9 +47,9 @@ test.beforeAll( async({browser})=>{
 // ============================================================================
 // TEST 1: Full E2E - Add to cart, checkout, verify order
 // ============================================================================
-test('place the order', async()=>{
+test('@API place the order', async()=>{
 
-   const email = "anshika@gmail.com";
+   const email = "getnaveen81@gmail.com";
    const productName = 'ZARA COAT 3';
    
    // Create page from webContext - ALREADY LOGGED IN (no login needed!)
