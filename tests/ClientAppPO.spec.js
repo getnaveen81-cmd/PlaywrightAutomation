@@ -37,7 +37,7 @@ for (const data of dataset) {
   });
 }
 
-customtest.only('@Webst Client App login', async ({ page, testDataForOrder }) => {
+customtest('@Webst Client App login', async ({ page, testDataForOrder }) => {
     const poManager = new POManager(page);
 
     // await page.route("**/*.{jpg,png,jpeg}", route=>route.abort())

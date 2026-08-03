@@ -1,5 +1,18 @@
 const { test, expect } = require('@playwright/test')
 
+/* test.describe.configure({ mode: "parallel" }) instructs Playwright 
+to run all tests within the current file or describe block concurrently 
+instead of sequentially. Each test runs in its own isolated browser context 
+and page, which reduces overall execution time. It should only be used 
+when tests are independent and do not rely on shared state or execution order. */
+
+/* test.describe.configure({ mode: "serial" }) configures all tests 
+in the current describe block or file to run sequentially. If any 
+test fails, Playwright skips the remaining tests in that serial group. 
+It's useful when tests have dependencies, such as multi-step business 
+workflows where each test relies on the successful completion of the previous one. */
+
+test.describe.configure({mode:"parallel"})
 // Test: handling popups and basic navigation/visibility interactions
 test('handling popups', async ({ page }) => {
     // Navigate to a practice page that contains UI controls we'll use
@@ -30,10 +43,13 @@ test('handling popups', async ({ page }) => {
     // Demonstrate hovering over an element (useful for revealing menus/tooltips)
     await page.locator('#mousehover').hover()
 
-    const framePage = page.frameLocator('[name="iframe-name"]')
+    // const framePage = page.frameLocator('[name="iframe-name"]')
 
-    //  await framePage.locator("a[href*='lifetime-access']:visible").click()
-    await framePage.locator("a[href*='lifetime-access']").first().click()
+    // //  await framePage.locator("a[href*='lifetime-access']:visible").click()
+    // await framePage.locator("a[href*='lifetime-access']").first().click()
+    const framePage = page.frameLocator('[name="iframe-name"]');
+
+    await framePage.locator("a[href*='lifetime-access']:visible").click();
      const text = await framePage.locator('.text h2').textContent()
      console.log("number of happy subscribers: "+ text.split(" ")[1])
 })
